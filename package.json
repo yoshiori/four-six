@@ -1,0 +1,21 @@
+{
+  "name": "four-six",
+  "version": "1.0.0",
+  "main": "tailwind.config.js",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "build-css": "tailwindcss -i ./src/input.css -o ./dist/output.css",
+    "watch-css": "tailwindcss -i ./src/input.css -o ./dist/output.css --watch",
+    "serve": "live-server dist"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "jest": "^30.0.5",
+    "live-server": "^1.2.2",
+    "tailwindcss": "^4.1.11"
+  }
+}
