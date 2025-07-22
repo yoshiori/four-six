@@ -1,5 +1,7 @@
 import { calculateRecipe } from './brewing';
-import type { Recipe, Taste, Strength } from './types';
+import type { Recipe, Taste, Strength, Pour } from './types';
+import { Timer, TimerState, TimerEvent } from './timer';
+import { PourTimer, PourTimerEvent } from './pour-timer';
 
 // DOM elements
 const recipeForm = document.getElementById('recipeForm') as HTMLFormElement;
@@ -7,6 +9,27 @@ const recipeDisplay = document.getElementById(
   'recipeDisplay'
 ) as HTMLDivElement;
 const timerSection = document.getElementById('timerSection') as HTMLDivElement;
+
+// Timer DOM elements
+const startTimerBtn = document.getElementById(
+  'startTimer'
+) as HTMLButtonElement;
+const timerDisplay = document.getElementById('timerDisplay') as HTMLDivElement;
+const currentAction = document.getElementById('currentAction') as HTMLElement;
+const currentAmount = document.getElementById('currentAmount') as HTMLElement;
+const timerCountdown = document.getElementById('timerCountdown') as HTMLElement;
+const progressBar = document.querySelector('#progressBar > div') as HTMLElement;
+const currentPour = document.getElementById('currentPour') as HTMLElement;
+const totalPours = document.getElementById('totalPours') as HTMLElement;
+const stopTimerBtn = document.getElementById(
+  'stopTimerBtn'
+) as HTMLButtonElement;
+
+// Global timer instances
+let currentTimer: Timer | null = null;
+let currentPourTimer: PourTimer | null = null;
+let currentRecipe: Recipe | null = null;
+let timerInterval: number | null = null;
 
 // Type guard functions
 function isTaste(value: string): value is Taste {
@@ -81,6 +104,9 @@ recipeForm.addEventListener('submit', function (e: Event) {
     tasteInput.value as Taste,
     strengthInput.value as Strength
   );
+
+  // Store current recipe
+  currentRecipe = recipe;
 
   // Display recipe
   displayRecipe(recipe);
@@ -193,3 +219,168 @@ function displayRecipe(recipe: Recipe): void {
 
   recipeDisplay.innerHTML = html;
 }
+
+// Timer functionality
+function createPourArray(recipe: Recipe): Pour[] {
+  return recipe.pours.map((amount, index) => ({
+    amount,
+    timing: recipe.timings[index],
+  }));
+}
+
+function startBrewing(): void {
+  if (!currentRecipe) return;
+
+  // Create pour array
+  const pours = createPourArray(currentRecipe);
+
+  // Initialize timers
+  currentTimer = new Timer();
+  currentPourTimer = new PourTimer(pours);
+
+  // Setup event listeners
+  setupTimerEventListeners();
+
+  // Start pour timer (shows first pour)
+  currentPourTimer.start();
+
+  // Start 45-second countdown to next pour
+  startCountdownTimer(45);
+
+  // Start timer interval for countdown
+  startTimerInterval();
+
+  // Show timer display and hide start button
+  timerDisplay.classList.remove('hidden');
+  startTimerBtn.classList.add('hidden');
+}
+
+function setupTimerEventListeners(): void {
+  if (!currentTimer || !currentPourTimer) return;
+
+  // Timer events for countdown
+  currentTimer.on(TimerEvent.TICK, (seconds: unknown) => {
+    updateCountdown(seconds as number);
+  });
+
+  currentTimer.on(TimerEvent.COMPLETE, () => {
+    onCountdownComplete();
+  });
+
+  // Pour timer events
+  currentPourTimer.on(
+    PourTimerEvent.POUR_READY,
+    (pourIndex: unknown, amount: unknown) => {
+      showPourInstruction(pourIndex as number, amount as number);
+    }
+  );
+
+  currentPourTimer.on(PourTimerEvent.COMPLETE, () => {
+    onBrewingComplete();
+  });
+}
+
+function showPourInstruction(pourIndex: number, amount: number): void {
+  currentAction.textContent = `${pourIndex + 1}回目の注湯`;
+  currentAmount.textContent = `${amount.toFixed(0)}g`;
+
+  // Update progress and pour count
+  updateUI();
+}
+
+function startCountdownTimer(seconds: number): void {
+  if (currentTimer) {
+    currentTimer.start(seconds);
+  }
+}
+
+function onCountdownComplete(): void {
+  if (!currentPourTimer) return;
+
+  // Move to next pour if not finished
+  if (!currentPourTimer.isFinished()) {
+    currentPourTimer.nextPour();
+
+    // Start countdown to next pour if not finished
+    if (!currentPourTimer.isFinished()) {
+      startCountdownTimer(45);
+    }
+  }
+}
+
+function updateCountdown(seconds: number): void {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+  timerCountdown.textContent = `${minutes}:${remainingSeconds
+    .toString()
+    .padStart(2, '0')}`;
+}
+
+function updateUI(): void {
+  if (!currentPourTimer) return;
+
+  // Update progress
+  const progress = currentPourTimer.getProgress();
+  progressBar.style.width = `${progress}%`;
+
+  // Update pour count
+  currentPour.textContent = (
+    currentPourTimer.getCurrentPourIndex() + 1
+  ).toString();
+  totalPours.textContent = currentPourTimer.getTotalPours().toString();
+}
+
+function onBrewingComplete(): void {
+  // Stop timer interval
+  stopTimerInterval();
+
+  currentAction.textContent = '抽出完了！';
+  currentAmount.textContent = '完成';
+  timerCountdown.textContent = '0:00';
+
+  // Show completion message
+  setTimeout(() => {
+    alert('コーヒーの抽出が完了しました！美味しくお召し上がりください。');
+  }, 500);
+}
+
+function startTimerInterval(): void {
+  if (timerInterval) {
+    clearInterval(timerInterval);
+  }
+
+  timerInterval = window.setInterval(() => {
+    if (currentTimer && currentTimer.getState() === TimerState.RUNNING) {
+      currentTimer.tick();
+    }
+  }, 1000);
+}
+
+function stopTimerInterval(): void {
+  if (timerInterval) {
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
+}
+
+function stopBrewing(): void {
+  // Stop timer interval
+  stopTimerInterval();
+
+  // Stop timers
+  if (currentTimer) {
+    currentTimer.stop();
+  }
+
+  // Reset UI
+  timerDisplay.classList.add('hidden');
+  startTimerBtn.classList.remove('hidden');
+
+  // Clear timer instances
+  currentTimer = null;
+  currentPourTimer = null;
+}
+
+// Event listeners for timer controls
+startTimerBtn.addEventListener('click', startBrewing);
+stopTimerBtn.addEventListener('click', stopBrewing);

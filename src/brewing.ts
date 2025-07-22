@@ -1,5 +1,7 @@
 import type { Taste, Strength, Recipe } from './types';
 
+export type { Pour } from './types';
+
 export function calculateTotalWater(beanWeight: number): number {
   return beanWeight * 15;
 }
