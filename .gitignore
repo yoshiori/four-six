@@ -21,3 +21,4 @@ coverage/
 *.sws
 *.swh
 *.swt
+.claude/
