@@ -5,14 +5,18 @@
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",
-    "build-css": "tailwindcss -i ./src/input.css -o ./dist/output.css",
-    "watch-css": "tailwindcss -i ./src/input.css -o ./dist/output.css --watch",
+    "build-css": "npx tailwindcss -i ./src/input.css -o ./dist/output.css",
+    "watch-css": "npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch",
     "serve": "live-server dist",
-    "lint": "eslint . --ext .js",
-    "lint:fix": "eslint . --ext .js --fix",
+    "lint": "eslint . --ext .js,.ts",
+    "lint:fix": "eslint . --ext .js,.ts --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "prepare": "husky"
+    "prepare": "husky",
+    "build": "node build.js",
+    "build:watch": "node build.js --watch",
+    "typecheck": "tsc --noEmit",
+    "dev": "npm run build:watch & npm run serve"
   },
   "keywords": [],
   "author": "",
@@ -20,6 +24,11 @@
   "description": "",
   "devDependencies": {
     "@eslint/js": "^9.31.0",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.1.0",
+    "@typescript-eslint/eslint-plugin": "^8.38.0",
+    "@typescript-eslint/parser": "^8.38.0",
+    "esbuild": "^0.25.8",
     "eslint": "^9.31.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.3",
@@ -28,6 +37,9 @@
     "lint-staged": "^16.1.2",
     "live-server": "^1.2.2",
     "prettier": "^3.6.2",
-    "tailwindcss": "^4.1.11"
+    "tailwindcss": "^4.1.11",
+    "ts-jest": "^29.4.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
   }
 }
