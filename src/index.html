@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4:6 Method Interactive Timer</title>
+    <link rel="stylesheet" href="./app.css">
+</head>
+<body class="bg-gradient-to-b from-amber-50 to-orange-100 min-h-screen font-sans">
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-amber-900 mb-4">
+                4:6 Method Interactive Timer
+            </h1>
+            <p class="text-lg text-amber-700">
+                世界チャンピオンの粕谷哲さんが開発した4:6メソッドで、完璧なコーヒーを淹れましょう
+            </p>
+        </header>
+
+        <!-- Main Content -->
+        <main class="grid md:grid-cols-2 gap-8">
+            <!-- Input Section -->
+            <section class="bg-white rounded-xl shadow-lg p-6">
+                <h2 class="text-2xl font-semibold text-amber-900 mb-6">レシピ設定</h2>
+                
+                <form id="recipeForm" class="space-y-6">
+                    <!-- Bean Weight Input -->
+                    <div>
+                        <label for="beanWeight" class="block text-sm font-medium text-gray-700 mb-2">
+                            コーヒー豆の重量 (g)
+                        </label>
+                        <input 
+                            type="number" 
+                            id="beanWeight" 
+                            name="beanWeight"
+                            min="10" 
+                            max="30" 
+                            step="0.5"
+                            value="20"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                            required
+                        >
+                        <p class="text-xs text-gray-500 mt-1">推奨範囲: 10-30g</p>
+                    </div>
+
+                    <!-- Taste Preference -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-3">
+                            味の好み
+                        </label>
+                        <div class="space-y-2">
+                            <label class="flex items-center">
+                                <input type="radio" name="taste" value="sweet" class="text-amber-600 focus:ring-amber-500">
+                                <span class="ml-2 text-sm">甘め (1回目多め、2回目少なめ)</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="radio" name="taste" value="balanced" checked class="text-amber-600 focus:ring-amber-500">
+                                <span class="ml-2 text-sm">バランス (1回目と2回目を均等)</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="radio" name="taste" value="bright" class="text-amber-600 focus:ring-amber-500">
+                                <span class="ml-2 text-sm">酸味・明るめ (1回目少なめ、2回目多め)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Strength Preference -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-3">
+                            濃さの好み
+                        </label>
+                        <div class="space-y-2">
+                            <label class="flex items-center">
+                                <input type="radio" name="strength" value="light" class="text-amber-600 focus:ring-amber-500">
+                                <span class="ml-2 text-sm">薄め (4回注湯)</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="radio" name="strength" value="medium" checked class="text-amber-600 focus:ring-amber-500">
+                                <span class="ml-2 text-sm">標準 (5回注湯)</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="radio" name="strength" value="strong" class="text-amber-600 focus:ring-amber-500">
+                                <span class="ml-2 text-sm">濃いめ (6回注湯)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Calculate Button -->
+                    <button 
+                        type="submit" 
+                        class="w-full bg-amber-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 transition-colors"
+                    >
+                        レシピを計算
+                    </button>
+                </form>
+            </section>
+
+            <!-- Recipe Display Section -->
+            <section class="bg-white rounded-xl shadow-lg p-6">
+                <h2 class="text-2xl font-semibold text-amber-900 mb-6">レシピ</h2>
+                
+                <div id="recipeDisplay" class="text-center text-gray-500">
+                    左側でコーヒー豆の重量と好みを設定し、「レシピを計算」ボタンを押してください。
+                </div>
+
+                <!-- Timer Section (initially hidden) -->
+                <div id="timerSection" class="mt-8 hidden">
+                    <div class="border-t pt-6">
+                        <button 
+                            id="startTimer" 
+                            class="w-full bg-green-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors"
+                        >
+                            タイマー開始
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="mt-12 text-center text-sm text-amber-600">
+            <p>4:6 Method developed by Tetsu Kasuya (2016 World Brewers Cup Champion)</p>
+        </footer>
+    </div>
+
+    <script src="./app.js"></script>
+</body>
+</html>
