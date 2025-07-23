@@ -7,7 +7,7 @@ const prettierConfig = require('eslint-config-prettier');
 module.exports = [
   js.configs.recommended,
   {
-    files: ['**/*.test.{js,ts}', 'jest.config.ts'],
+    files: ['**/*.test.{js,ts}', 'jest.config.ts', '__tests__/**/*.ts'],
     plugins: {
       '@typescript-eslint': typescript,
       prettier: prettier,
@@ -31,6 +31,11 @@ module.exports = [
         afterAll: 'readonly',
         console: 'readonly',
         process: 'readonly',
+        global: 'readonly',
+        require: 'readonly',
+        window: 'readonly',
+        document: 'readonly',
+        Node: 'readonly',
       },
     },
     rules: {
@@ -39,7 +44,8 @@ module.exports = [
       'prettier/prettier': 'error',
       '@typescript-eslint/explicit-function-return-type': 'off',
       '@typescript-eslint/explicit-module-boundary-types': 'off',
-      '@typescript-eslint/no-explicit-any': 'error',
+      '@typescript-eslint/no-explicit-any': 'warn', // Allow any in tests
+      '@typescript-eslint/no-require-imports': 'off', // Allow require in tests
       '@typescript-eslint/no-unused-vars': [
         'error',
         { argsIgnorePattern: '^_' },
