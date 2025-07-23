@@ -1,0 +1,26 @@
+# Global code owners
+* @yoshiori
+
+# GitHub workflows
+/.github/ @yoshiori
+
+# Configuration files
+*.json @yoshiori
+*.js @yoshiori
+*.ts @yoshiori
+*.yml @yoshiori
+*.yaml @yoshiori
+
+# Documentation
+*.md @yoshiori
+/CLAUDE.md @yoshiori
+
+# Source code
+/src/ @yoshiori
+
+# Tests
+/__tests__/ @yoshiori
+
+# Build and deployment
+/dist/ @yoshiori
+/build.js @yoshiori
