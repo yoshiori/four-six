@@ -2,6 +2,7 @@ import { AppState } from './app-state';
 import { Timer, TimerState, TimerEvent } from './timer';
 import { PourTimer, PourTimerEvent } from './pour-timer';
 import type { Pour } from './types';
+import { i18nSystem } from './i18n-system';
 
 export class TimerPage {
   private appState: AppState;
@@ -103,8 +104,8 @@ export class TimerPage {
   }
 
   private showPourInstruction(pourIndex: number, amount: number): void {
-    this.currentAction.textContent = `${pourIndex + 1}回目の注湯`;
-    this.currentAmount.textContent = `${amount.toFixed(0)}g`;
+    this.currentAction.textContent = i18nSystem.formatPourAction(pourIndex);
+    this.currentAmount.textContent = `${amount.toFixed(0)}${i18nSystem.t('common.units.grams')}`;
 
     // Update progress and pour count
     this.updateUI();

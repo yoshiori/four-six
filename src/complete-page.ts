@@ -1,4 +1,5 @@
 import { AppState } from './app-state';
+import { i18nSystem } from './i18n-system';
 
 export class CompletePage {
   private appState: AppState;
@@ -39,15 +40,14 @@ export class CompletePage {
     if (!recipe) return;
 
     // Display summary information
-    this.summaryBeans.textContent = `${recipe.beanWeight}g`;
-    this.summaryWater.textContent = `${recipe.totalWater}ml`;
-    this.summaryPours.textContent = `${recipe.pours.length}回`;
+    this.summaryBeans.textContent = `${recipe.beanWeight}${i18nSystem.t('common.units.grams')}`;
+    this.summaryWater.textContent = `${recipe.totalWater}${i18nSystem.t('common.units.ml')}`;
+    this.summaryPours.textContent = `${recipe.pours.length}${i18nSystem.t('common.units.times')}`;
 
     // Calculate total brewing time
     const totalSeconds = (recipe.pours.length - 1) * 45;
     const minutes = Math.floor(totalSeconds / 60);
     const seconds = totalSeconds % 60;
-    this.summaryTime.textContent =
-      seconds > 0 ? `${minutes}分${seconds}秒` : `${minutes}分`;
+    this.summaryTime.textContent = i18nSystem.formatTime(minutes, seconds);
   }
 }

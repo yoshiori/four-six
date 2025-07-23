@@ -12,10 +12,31 @@
     <div class="container mx-auto px-4 py-8 max-w-4xl">
       <!-- Header -->
       <header class="text-center mb-12">
-        <h1 class="text-4xl font-bold text-amber-900 mb-4">
-          4:6 Method Interactive Timer
-        </h1>
-        <p class="text-lg text-amber-700">
+        <div class="flex justify-between items-center mb-4">
+          <div></div>
+          <!-- Spacer -->
+          <h1
+            class="text-4xl font-bold text-amber-900"
+            data-i18n="common.app_title"
+          >
+            4:6 Method Interactive Timer
+          </h1>
+          <div class="flex space-x-2">
+            <button
+              id="lang-ja"
+              class="px-3 py-1 text-sm bg-amber-100 text-amber-700 rounded hover:bg-amber-200 transition-colors"
+            >
+              日本語
+            </button>
+            <button
+              id="lang-en"
+              class="px-3 py-1 text-sm bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition-colors"
+            >
+              English
+            </button>
+          </div>
+        </div>
+        <p class="text-lg text-amber-700" data-i18n="common.app_description">
           世界チャンピオンの粕谷哲さんが開発した4:6メソッドで、完璧なコーヒーを淹れましょう
         </p>
       </header>
@@ -23,14 +44,20 @@
       <!-- Page 1: Setup -->
       <div id="page-setup" class="page">
         <div class="bg-white rounded-xl shadow-lg p-8 max-w-2xl mx-auto">
-          <h2 class="text-2xl font-semibold text-amber-900 mb-8 text-center">
+          <h2
+            class="text-2xl font-semibold text-amber-900 mb-8 text-center"
+            data-i18n="setup.title"
+          >
             レシピ設定
           </h2>
 
           <div class="space-y-8">
             <!-- Bean Weight Slider -->
             <div>
-              <label class="block text-lg font-medium text-gray-700 mb-4">
+              <label
+                class="block text-lg font-medium text-gray-700 mb-4"
+                data-i18n="setup.bean_weight"
+              >
                 コーヒー豆の量
                 <span id="beanWeightValue" class="text-amber-600 font-bold ml-2"
                   >20g</span
@@ -53,7 +80,10 @@
 
             <!-- Taste Slider -->
             <div>
-              <label class="block text-lg font-medium text-gray-700 mb-4">
+              <label
+                class="block text-lg font-medium text-gray-700 mb-4"
+                data-i18n="setup.taste_preference"
+              >
                 味の好み
                 <span id="tasteValue" class="text-amber-600 font-bold ml-2"
                   >バランス</span
@@ -69,15 +99,18 @@
                 class="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer slider-thumb-amber"
               />
               <div class="flex justify-between text-xs text-gray-500 mt-2">
-                <span>甘め</span>
-                <span>バランス</span>
-                <span>酸味・明るめ</span>
+                <span data-i18n="setup.taste_sweet">甘め</span>
+                <span data-i18n="setup.taste_balanced">バランス</span>
+                <span data-i18n="setup.taste_bright">酸味・明るめ</span>
               </div>
             </div>
 
             <!-- Strength Slider -->
             <div>
-              <label class="block text-lg font-medium text-gray-700 mb-4">
+              <label
+                class="block text-lg font-medium text-gray-700 mb-4"
+                data-i18n="setup.strength_preference"
+              >
                 濃さの好み
                 <span id="strengthValue" class="text-amber-600 font-bold ml-2"
                   >標準</span
@@ -93,29 +126,36 @@
                 class="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer slider-thumb-amber"
               />
               <div class="flex justify-between text-xs text-gray-500 mt-2">
-                <span>薄め (4回)</span>
-                <span>標準 (5回)</span>
-                <span>濃いめ (6回)</span>
+                <span data-i18n="setup.strength_light">薄め (4回)</span>
+                <span data-i18n="setup.strength_standard">標準 (5回)</span>
+                <span data-i18n="setup.strength_strong">濃いめ (6回)</span>
               </div>
             </div>
 
             <!-- Recipe Preview -->
             <div id="recipePreview" class="bg-amber-50 rounded-lg p-6 mt-8">
-              <h3 class="font-semibold text-amber-900 mb-3">
+              <h3
+                class="font-semibold text-amber-900 mb-3"
+                data-i18n="setup.recipe_preview"
+              >
                 レシピプレビュー
               </h3>
               <div class="grid grid-cols-2 gap-3 text-sm">
                 <div>
-                  <strong>総水量:</strong> <span id="previewWater">300ml</span>
+                  <strong data-i18n="setup.total_water">総水量:</strong>
+                  <span id="previewWater">300ml</span>
                 </div>
                 <div>
-                  <strong>注湯回数:</strong> <span id="previewPours">5回</span>
+                  <strong data-i18n="setup.pour_count">注湯回数:</strong>
+                  <span id="previewPours">5回</span>
                 </div>
                 <div>
-                  <strong>抽出時間:</strong> <span id="previewTime">約3分</span>
+                  <strong data-i18n="setup.brew_time">抽出時間:</strong>
+                  <span id="previewTime">約3分</span>
                 </div>
                 <div>
-                  <strong>比率:</strong> <span id="previewRatio">1:15</span>
+                  <strong data-i18n="setup.ratio">比率:</strong>
+                  <span id="previewRatio">1:15</span>
                 </div>
               </div>
             </div>
@@ -124,6 +164,7 @@
             <button
               id="startBrewingBtn"
               class="w-full bg-amber-600 text-white py-4 px-6 rounded-lg font-semibold text-lg hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 transition-colors"
+              data-i18n="common.start_brewing"
             >
               抽出を開始
             </button>
@@ -162,7 +203,8 @@
               </div>
               <div class="text-center mt-2 text-sm text-gray-600">
                 <span id="currentPour">-</span> /
-                <span id="totalPours">-</span> 注湯
+                <span id="totalPours">-</span>
+                <span data-i18n="timer.pour_label">注湯</span>
               </div>
             </div>
 
@@ -171,7 +213,7 @@
                 id="stopTimerBtn"
                 class="bg-red-600 text-white py-2 px-6 rounded-lg font-semibold hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors"
               >
-                停止
+                <span data-i18n="common.stop">停止</span>
               </button>
             </div>
           </div>
@@ -185,26 +227,40 @@
         >
           <div class="mb-8">
             <div class="text-6xl mb-4">☕</div>
-            <h2 class="text-3xl font-bold text-amber-900 mb-4">抽出完了！</h2>
-            <p class="text-lg text-gray-700 mb-6">
+            <h2
+              class="text-3xl font-bold text-amber-900 mb-4"
+              data-i18n="complete.title"
+            >
+              抽出完了！
+            </h2>
+            <p class="text-lg text-gray-700 mb-6" data-i18n="complete.message">
               美味しいコーヒーが完成しました
             </p>
           </div>
 
           <div id="brewingSummary" class="bg-amber-50 rounded-lg p-6 mb-8">
-            <h3 class="font-semibold text-amber-900 mb-3">抽出サマリー</h3>
+            <h3
+              class="font-semibold text-amber-900 mb-3"
+              data-i18n="complete.summary_title"
+            >
+              抽出サマリー
+            </h3>
             <div class="grid grid-cols-2 gap-3 text-sm">
               <div>
-                <strong>使用豆量:</strong> <span id="summaryBeans">--g</span>
+                <strong data-i18n="complete.beans_used">使用豆量:</strong>
+                <span id="summaryBeans">--g</span>
               </div>
               <div>
-                <strong>総水量:</strong> <span id="summaryWater">--ml</span>
+                <strong data-i18n="complete.total_water">総水量:</strong>
+                <span id="summaryWater">--ml</span>
               </div>
               <div>
-                <strong>注湯回数:</strong> <span id="summaryPours">--回</span>
+                <strong data-i18n="complete.pour_count">注湯回数:</strong>
+                <span id="summaryPours">--回</span>
               </div>
               <div>
-                <strong>抽出時間:</strong> <span id="summaryTime">--分</span>
+                <strong data-i18n="complete.brew_time">抽出時間:</strong>
+                <span id="summaryTime">--分</span>
               </div>
             </div>
           </div>
@@ -213,7 +269,7 @@
             id="brewAgainBtn"
             class="bg-amber-600 text-white py-3 px-8 rounded-lg font-semibold hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 transition-colors"
           >
-            もう一度淹れる
+            <span data-i18n="common.brew_again">もう一度淹れる</span>
           </button>
         </div>
       </div>

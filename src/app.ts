@@ -3,19 +3,32 @@ import { PageManager } from './page-manager';
 import { SetupPage } from './setup-page';
 import { TimerPage } from './timer-page';
 import { CompletePage } from './complete-page';
+import { i18nSystem } from './i18n-system';
 
 class App {
   private appState: AppState;
   private pageManager: PageManager;
+  private setupPage: SetupPage | null = null;
   private timerPage: TimerPage | null = null;
   private completePage: CompletePage | null = null;
 
   constructor() {
     this.appState = new AppState();
     this.pageManager = new PageManager();
-    new SetupPage(this.appState);
+
+    this.initialize();
+  }
+
+  private async initialize(): Promise<void> {
+    // Initialize i18n system first
+    await i18nSystem.initialize();
 
     this.initializeEventListeners();
+
+    // Initialize pages after i18n is ready - only create once
+    if (!this.setupPage) {
+      this.setupPage = new SetupPage(this.appState);
+    }
 
     // Show initial page
     this.pageManager.showPage('setup');
