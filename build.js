@@ -1,8 +1,22 @@
 const esbuild = require('esbuild');
 const fs = require('fs');
 const path = require('path');
+const { execSync } = require('child_process');
 
 const isWatch = process.argv.includes('--watch');
+
+// Build CSS with PostCSS
+function buildCSS() {
+  try {
+    execSync('npx postcss ./src/input.css -o ./dist/app.css', {
+      stdio: 'inherit',
+    });
+    console.log('🎨 CSS built successfully');
+  } catch (error) {
+    console.error('❌ CSS build failed:', error.message);
+    process.exit(1);
+  }
+}
 
 // Copy static files to dist
 function copyStaticFiles() {
@@ -17,16 +31,6 @@ function copyStaticFiles() {
       const filename = path.basename(file);
       fs.copyFileSync(file, `dist/${filename}`);
       console.log(`📄 Copied ${filename}`);
-    }
-  });
-
-  // Copy CSS files from src to dist
-  const srcCssFiles = ['src/app.css'];
-  srcCssFiles.forEach((file) => {
-    if (fs.existsSync(file)) {
-      const filename = path.basename(file);
-      fs.copyFileSync(file, `dist/${filename}`);
-      console.log(`🎨 Copied ${filename}`);
     }
   });
 }
@@ -60,7 +64,9 @@ if (isWatch) {
   esbuild
     .build(buildOptions)
     .then(() => {
-      // Copy HTML and CSS files to dist
+      // Build CSS with PostCSS
+      buildCSS();
+      // Copy HTML files to dist
       copyStaticFiles();
       console.log('✅ Build complete');
     })

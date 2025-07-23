@@ -1,12 +1,12 @@
 {
   "name": "four-six",
   "version": "1.0.0",
-  "main": "tailwind.config.js",
+  "main": "dist/app.js",
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",
-    "build-css": "npx tailwindcss -i ./src/input.css -o ./dist/output.css",
-    "watch-css": "npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch",
+    "build-css": "npx postcss ./src/input.css -o ./dist/app.css",
+    "watch-css": "npx postcss ./src/input.css -o ./dist/app.css --watch",
     "serve": "live-server dist",
     "lint": "eslint . --ext .js,.ts",
     "lint:fix": "eslint . --ext .js,.ts --fix",
@@ -24,6 +24,7 @@
   "description": "",
   "devDependencies": {
     "@eslint/js": "^9.31.0",
+    "@tailwindcss/postcss": "^4.1.11",
     "@types/jest": "^30.0.0",
     "@types/node": "^24.1.0",
     "@typescript-eslint/eslint-plugin": "^8.38.0",
@@ -36,6 +37,8 @@
     "jest": "^30.0.5",
     "lint-staged": "^16.1.2",
     "live-server": "^1.2.2",
+    "postcss": "^8.5.6",
+    "postcss-cli": "^11.0.1",
     "prettier": "^3.6.2",
     "tailwindcss": "^4.1.11",
     "ts-jest": "^29.4.0",
