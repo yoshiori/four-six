@@ -9,6 +9,8 @@ export class TimerPage {
   private timer: Timer | null = null;
   private pourTimer: PourTimer | null = null;
   private timerInterval: number | null = null;
+  private currentPourIndex: number = 0;
+  private currentPourAmount: number = 0;
 
   // DOM elements
   private currentAction!: HTMLElement;
@@ -23,6 +25,7 @@ export class TimerPage {
     this.appState = appState;
     this.initializeElements();
     this.setupEventListeners();
+    this.setupLanguageChangeListener();
   }
 
   private initializeElements(): void {
@@ -49,6 +52,21 @@ export class TimerPage {
     this.stopTimerBtn.addEventListener('click', () => {
       this.stopBrewing();
     });
+  }
+
+  private setupLanguageChangeListener(): void {
+    // Update dynamic texts when language changes
+    (
+      window as { updateTimerPageDynamicValues?: () => void }
+    ).updateTimerPageDynamicValues = () => {
+      // Update current action text if we have an active pour
+      if (this.pourTimer && this.currentPourIndex >= 0) {
+        this.currentAction.textContent = i18nSystem.formatPourAction(
+          this.currentPourIndex
+        );
+        this.currentAmount.textContent = `${this.currentPourAmount.toFixed(0)}${i18nSystem.t('common.units.grams')}`;
+      }
+    };
   }
 
   startBrewing(): void {
@@ -104,6 +122,10 @@ export class TimerPage {
   }
 
   private showPourInstruction(pourIndex: number, amount: number): void {
+    // Store current values for language change updates
+    this.currentPourIndex = pourIndex;
+    this.currentPourAmount = amount;
+
     this.currentAction.textContent = i18nSystem.formatPourAction(pourIndex);
     this.currentAmount.textContent = `${amount.toFixed(0)}${i18nSystem.t('common.units.grams')}`;
 

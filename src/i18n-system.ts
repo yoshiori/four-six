@@ -104,11 +104,19 @@ export class I18nSystem {
     this.updateRecipePreview();
 
     // Update dynamic values in SetupPage if available
-    const updateFunction = (
+    const updateSetupFunction = (
       window as { updateSetupPageDynamicValues?: () => void }
     ).updateSetupPageDynamicValues;
-    if (typeof updateFunction === 'function') {
-      updateFunction();
+    if (typeof updateSetupFunction === 'function') {
+      updateSetupFunction();
+    }
+
+    // Update dynamic values in TimerPage if available
+    const updateTimerFunction = (
+      window as { updateTimerPageDynamicValues?: () => void }
+    ).updateTimerPageDynamicValues;
+    if (typeof updateTimerFunction === 'function') {
+      updateTimerFunction();
     }
   }
 
